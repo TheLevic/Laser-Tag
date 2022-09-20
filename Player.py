@@ -7,7 +7,6 @@ class Player:
         self.uid = None;
         self.numPlayersHit = 0;
         self.gotHit = False;
-        self.hitOtherPlayer = False;
         self.countdown = 20; # Countdown timer for vest to reactivate
         self.alive = True;
 
@@ -25,11 +24,14 @@ class Player:
 
     def hitOtherPlayer(self):
         self.numPlayersHit = self.numHits + 1;
-        self.hitOtherPlayer = True;
 
     def countdown(self):
         if self.gotHit == True:
-            self.countdown = self.countdown - 1;
+            if self.countdown > 0:
+                self.countdown = self.countdown - 1;
+            else:
+                self.gotHit = False;
+                self.countdown = 20;
     
     def toggleLife(self):
         if self.numLives > 0:
@@ -39,5 +41,7 @@ class Player:
 
     def update(self):
         self.toggleLife();
+        self.countdown();
+        
         
     
