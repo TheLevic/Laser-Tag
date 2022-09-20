@@ -23,6 +23,7 @@ def main_window():
     
     #add your code below this comment
 
+# after 4 seconds the main function is called    
 root.after(4000, main_window)
 
 mainloop()
