@@ -1,8 +1,9 @@
-from curses import window
+#from curses import window
 from tkinter import *
 from PIL import ImageTk, Image
 
 background_color = "#332B2B"
+foreground_color = "white"
 
 splash = Tk()
 splash.geometry("500x500")
@@ -32,19 +33,19 @@ def main_window():
     createGame.configure(bg = background_color);
 
     #Creating the rows and columns
-    Label(createGame, text="Please enter players below", bg = background_color, fg="white").grid(row=0,column=0, columnspan=2);
+    Label(createGame, text="Please enter players below", bg = background_color, fg = foreground_color).grid(row=0,column=0, columnspan=2);
     #Row
     for row in range(1, 16):
         #Columns
         for column in range(0,2):
-            entry = Entry(createGame, width = 30, bg = background_color, fg="white");
+            entry = Entry(createGame, width = 30, bg = background_color, fg = foreground_color);
             entry.grid(row=row, column=column);
     
     #Create submit button
     def press():
         print("Hello");
 
-    Button(createGame, text="Play Game", command=press).grid(row=18, column=0, columnspan=2);
+    Button(createGame, text="Play Game", command=press, bg=background_color, fg=foreground_color).grid(row=18, column=0, columnspan=2);
         
         
 
