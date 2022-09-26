@@ -8,6 +8,7 @@ Screen:
         Label:
             id: Heading
             text: "Create Game"
+            size_hint: 1, .2
 
         GridLayout:
             cols: 2
@@ -44,4 +45,6 @@ Screen:
             TextInput:
         Button:
             text: "Submit"
-            on_press: self.onPress;
+            size_hint: 1, .2
+            # on_press: app.root.onPress;
+            
