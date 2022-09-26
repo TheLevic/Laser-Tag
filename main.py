@@ -25,7 +25,7 @@ class mainApp(App):
         return sm
     
     def on_start(self):
-        Clock.schedule_once(self.change_screen, 5)
+        Clock.schedule_once(self.change_screen, 3)
     
     def change_screen(self, dt):
         sm.current = "mainScreen"
