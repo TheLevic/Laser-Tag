@@ -12,9 +12,6 @@ class splashScreen(Screen):
     pass
 
 class mainScreen(Screen):
-    def on_enter(self):
-        self.myFunc()
-
     def myFunc(self):
         print("entering")
 
