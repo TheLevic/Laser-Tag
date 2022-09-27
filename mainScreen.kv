@@ -1,5 +1,5 @@
 #:kivy 1.0
-Screen:
+mainScreen:
     name: "mainScreen"
 
     BoxLayout:
@@ -96,7 +96,10 @@ Screen:
                 id: 30
                 input_filter: "int"
         Button:
-            text: "Submit"
+            id: button
+            text: "Press me"
             size_hint: 1, .2
-            # on_press: app.root.onPress;
+            on_release:
+                root.myFunc()
+            
             
