@@ -12,8 +12,11 @@ class splashScreen(Screen):
     pass
 
 class mainScreen(Screen):
-    def onPress(self):
-        print("Hello");
+    def on_enter(self):
+        self.myFunc()
+
+    def myFunc(self):
+        print("entering")
 
 class mainApp(App):
     global sm
@@ -29,8 +32,6 @@ class mainApp(App):
     
     def change_screen(self, dt):
         sm.current = "mainScreen"
-
-    
-
+        
 if __name__ == '__main__':
     mainApp().run()
