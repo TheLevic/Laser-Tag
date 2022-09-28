@@ -9,7 +9,6 @@ from kivy.core.window import Window
 Window.fullscreen = False
 Window.size = (800, 800)
 
-sm = ScreenManager()
 
 class splashScreen(Screen):
     pass
@@ -19,10 +18,13 @@ class mainScreen(Screen):
     def onPress(self):
         print("Hello")
 
+    def myFunc(self):
+        print("entering")
+
 
 class mainApp(App):
-    # global sm = ScreenManager()
-    # sm = ScreenManager()
+    global sm
+    sm = ScreenManager()
     
     def build(self):
         sm.add_widget(Builder.load_file("splashScreen.kv"))
@@ -36,6 +38,10 @@ class mainApp(App):
         sm.current = "mainScreen"
 
 
+
 if __name__ == '__main__':
     mainApp().run()
+
+        
+
 
