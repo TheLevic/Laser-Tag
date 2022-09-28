@@ -4,6 +4,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
+import lib.db as db
 
 import psycopg2
 
@@ -22,18 +23,12 @@ class mainApp(App):
     sm = ScreenManager()
 
     def build(self):
-        sm.add_widget(Builder.load_file("splashScreen.kv"))
-        sm.add_widget(Builder.load_file("mainScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
         return sm
 
         #connect the database
-        conn = psycopg2.connect(
-            host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-        )
+        conn = db.connectToDatabase();
 
         #create a cursor
         c = conn.cursor()
@@ -50,13 +45,7 @@ class mainApp(App):
         return Builder.load_file(mainScreen.kv)
 
     def submit(self):
-        conn = psycopg2.connect(
-            host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-        )
+        conn = db.connectToDatabase();
 
         #create a cursor
         c = conn.cursor()
@@ -78,13 +67,7 @@ class mainApp(App):
         conn.close()
 
     def showRecords(self):
-        conn = psycopg2.connect(
-			host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-		)
+        conn = db.connectToDatabase();
         
 		#create a cursor
         c = conn.cursor()
