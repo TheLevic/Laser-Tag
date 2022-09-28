@@ -10,18 +10,22 @@ import psycopg2
 
 Window.fullscreen = False
 Window.size = (800, 800)
+sm = ScreenManager()
+
 
 class splashScreen(Screen):
     pass
+
 
 class mainScreen(Screen):
     def myFunc(self):
         print("entering")
 
-class mainApp(App):
-    global sm
-    sm = ScreenManager()
 
+class mainApp(App):
+    # global sm
+    # sm = ScreenManager()
+    
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
         sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
@@ -90,9 +94,10 @@ class mainApp(App):
     
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
-    
+
     def change_screen(self, dt):
         sm.current = "mainScreen"
-        
+
+
 if __name__ == '__main__':
     mainApp().run()
