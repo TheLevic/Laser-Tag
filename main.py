@@ -27,6 +27,23 @@ class mainApp(App):
         return sm
 
     def submit(self):
+
+
+        #create a cursor
+        c = conn.cursor()
+
+        values = (self.root.get_screen('mainScreen').ids.entry1.text, int(self.root.get_screen('mainScreen').ids.entry2.text))
+        db.commitToDatabase(values);
+
+        #output that the command successfully executed
+        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text, self.root.get_screen("mainScreen").ids.entry2.text} added'
+
+        #commit change to database
+        conn.commit()
+
+        #close connection to database
+        conn.close()
+
         values = (self.root.get_screen('mainScreen').ids.entry1.text,)
         db.commitToDatabase(values)
         # list to append the values to
@@ -48,7 +65,7 @@ class mainApp(App):
         word = ''
 		#loop through the returned records from our database
         for record in records:
-            word = f'{word}\n{record[0]}'
+            word = f'{word}\n{record[0]} {record[1]}'
             self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
     
     def on_start(self):
