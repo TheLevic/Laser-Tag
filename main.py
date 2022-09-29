@@ -27,38 +27,27 @@ class mainApp(App):
         return sm
 
     def submit(self):
-
-
-        #create a cursor
-        c = conn.cursor()
-
-        values = (self.root.get_screen('mainScreen').ids.entry1.text, int(self.root.get_screen('mainScreen').ids.entry2.text))
+        values = (self.root.get_screen('mainScreen').ids.entry0.text, int(self.root.get_screen('mainScreen').ids.entry1.text))
         db.commitToDatabase(values);
 
         #output that the command successfully executed
-        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text, self.root.get_screen("mainScreen").ids.entry2.text} added'
+        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry0.text, self.root.get_screen("mainScreen").ids.entry1.text} added'
 
-        #commit change to database
-        conn.commit()
-
-        #close connection to database
-        conn.close()
-
-        values = (self.root.get_screen('mainScreen').ids.entry1.text,)
-        db.commitToDatabase(values)
-        # list to append the values to
-        values_2 = []
-        #output that the command successfully executed
-        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text} added'
-        # print(self.root.get_screen("mainScreen").ids.entry1.text)
-        for i in range(2):
-            # first get the string of what it is we want to eval
-            test_string = f'self.root.get_screen("mainScreen").ids.entry{i}.text'
-            # print(test_string)
-            # append the actaul text value of that test_string into the list
-            values_2.append(eval(test_string))
+        # #values = (self.root.get_screen('mainScreen').ids.entry1.text,)
+        #db.commitToDatabase(values)
+        # # list to append the values to
+        # values_2 = []
+        # #output that the command successfully executed
+        # self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text} added'
+        # # print(self.root.get_screen("mainScreen").ids.entry1.text)
+        # for i in range(2):
+        #     # first get the string of what it is we want to eval
+        #     test_string = f'self.root.get_screen("mainScreen").ids.entry{i}.text'
+        #     # print(test_string)
+        #     # append the actaul text value of that test_string into the list
+        #     values_2.append(eval(test_string))
         # to show that this works print the first value added into the list, which would be the first entry we get
-        print(values_2[0])
+        #print(values_2[0])
 
     def showRecords(self):
         records = db.getAllDbValues();
