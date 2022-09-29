@@ -6,8 +6,6 @@ from kivy.app import App
 from kivy.core.window import Window
 import lib.db as db
 
-import psycopg2
-
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
