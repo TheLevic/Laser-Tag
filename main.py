@@ -53,6 +53,7 @@ class mainApp(App):
         return Builder.load_file(mainScreen.kv)
 
     def submit(self):
+<<<<<<< Updated upstream
         conn = psycopg2.connect(
             host = "ec2-34-234-240-121.compute-1.amazonaws.com",
             database = "d3pvstjgsdbmjp",
@@ -70,9 +71,13 @@ class mainApp(App):
 
         #execute command
         c.execute(sql_command, values)
+=======
+        values = (self.root.get_screen('mainScreen').ids.entry1.text, int(self.root.get_screen('mainScreen').ids.entry2.text))
+        db.commitToDatabase(values);
+>>>>>>> Stashed changes
 
         #output that the command successfully executed
-        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text} added'
+        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text, self.root.get_screen("mainScreen").ids.entry2.text} added'
 
         #commit change to database
         conn.commit()
@@ -99,7 +104,7 @@ class mainApp(App):
         word = ''
 		#loop through records in database
         for record in records:
-            word = f'{word}\n{record[0]}'
+            word = f'{word}\n{record[0]} {record[1]}'
             self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
 
 		#commit changes to database
