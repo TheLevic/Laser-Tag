@@ -18,15 +18,15 @@ def commitToDatabase(values):
     c = conn.cursor();
 
     # Insert command
-    sql_command = "INSERT INTO temp (name) VALUES (%s)"\
+
+    sql_command = "INSERT INTO temp VALUES" + str(values)
     
     #execute command
-    c.execute(sql_command, values)
+    c.execute(sql_command)
 
     # Commit changes and close connection
     conn.commit();
     conn.close();
-
 
 # This function returns all records in database
 def getAllDbValues():
@@ -38,5 +38,5 @@ def getAllDbValues():
     #retreive records from database
     c.execute("SELECT * FROM temp")
     records = c.fetchall()
-    return records;
 
+    return records;
