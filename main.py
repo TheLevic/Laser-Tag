@@ -27,7 +27,25 @@ class mainApp(App):
         return sm
 
     def submit(self):
-
+        values = (self.root.get_screen('mainScreen').ids.name_entry0.text,)
+        db.commitToDatabase(values)
+        # list to append the values to
+        kv_dict = {}
+        # output that the command successfully executed
+        self.root.get_screen(
+            'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} added'
+        for i in range(15):
+            # first get the string of what it is we want to eval
+            name_string = f'self.root.get_screen("mainScreen").ids.name_entry{i}.text'
+            id_string = f'self.root.get_screen("mainScreen").ids.id_entry{i}.text'
+            # print(name_string)
+            # append the actual text value of that name_string into the list
+            if eval(name_string) == "":
+                break
+            sub_dict = {i: {'player_name': eval(name_string), 'player_id': eval(id_string)}}
+            kv_dict.update(sub_dict)
+        print(kv_dict)
+        
     def showRecords(self):
         records = db.getAllDbValues();
         word = ''
