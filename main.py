@@ -4,7 +4,9 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
-import Player
+import lib.db as db
+
+import psycopg2
 
 Window.fullscreen = False
 Window.size = (800, 800)
@@ -16,21 +18,30 @@ class splashScreen(Screen):
 
 
 class mainScreen(Screen):
-    def onPress(self):
-        print("Hello")
-
     def myFunc(self):
         print("entering")
 
 
 class mainApp(App):
-    # global sm
-    # sm = ScreenManager()
-    
     def build(self):
-        sm.add_widget(Builder.load_file("splashScreen.kv"))
-        sm.add_widget(Builder.load_file("mainScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
         return sm
+
+    def submit(self):
+        values = (self.root.get_screen('mainScreen').ids.entry1.text,)
+        db.commitToDatabase(values);
+
+        #output that the command successfully executed
+        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text} added'
+
+    def showRecords(self):
+        records = db.getAllDbValues();
+        word = ''
+		#loop through the returned records from our database
+        for record in records:
+            word = f'{word}\n{record[0]}'
+            self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
     
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
@@ -41,7 +52,3 @@ class mainApp(App):
 
 if __name__ == '__main__':
     mainApp().run()
-
-        
-
-
