@@ -4,77 +4,36 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
-
-import psycopg2
+import lib.db as db
 
 Window.fullscreen = False
 Window.size = (800, 800)
+sm = ScreenManager()
+
 
 class splashScreen(Screen):
     pass
 
-class mainScreen(Screen):
-    def on_enter(self):
-        self.myFunc()
 
+class mainScreen(Screen):
     def myFunc(self):
         print("entering")
 
-class mainApp(App):
-    global sm
-    sm = ScreenManager()
 
+class mainApp(App):
     def build(self):
-        sm.add_widget(Builder.load_file("splashScreen.kv"))
-        sm.add_widget(Builder.load_file("mainScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
         return sm
 
-        #connect the database
-        conn = psycopg2.connect(
-            host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-        )
-
-        #create a cursor
-        c = conn.cursor()
-
-        #create a table
-        #c.execute("""CREATE TABLE if not exists temp (name TEXT);""")
-
-        #commit changes
-        #conn.commit()
-
-        #close connection to database
-        conn.close()
-
-        return Builder.load_file(mainScreen.kv)
-
     def submit(self):
-<<<<<<< Updated upstream
-        conn = psycopg2.connect(
-            host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-        )
+
 
         #create a cursor
         c = conn.cursor()
 
-        #command used to insert name into database
-        sql_command = "INSERT INTO temp (name) VALUES (%s)"
-        values = (self.root.get_screen('mainScreen').ids.entry1.text,)
-
-        #execute command
-        c.execute(sql_command, values)
-=======
         values = (self.root.get_screen('mainScreen').ids.entry1.text, int(self.root.get_screen('mainScreen').ids.entry2.text))
         db.commitToDatabase(values);
->>>>>>> Stashed changes
 
         #output that the command successfully executed
         self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text, self.root.get_screen("mainScreen").ids.entry2.text} added'
@@ -85,39 +44,36 @@ class mainApp(App):
         #close connection to database
         conn.close()
 
-    def showRecords(self):
-        conn = psycopg2.connect(
-			host = "ec2-34-234-240-121.compute-1.amazonaws.com",
-            database = "d3pvstjgsdbmjp",
-            user = "rmbmdpagnloizn",
-            password = "c371c84f18d0b18a39d271bce2a695c6f4a2dbe4974d036cac1a86a2f5f4d076",
-            port = "5432",
-		)
-        
-		#create a cursor
-        c = conn.cursor()
-		
-		#retreive records from database
-        c.execute("SELECT * FROM temp")
-        records = c.fetchall()
+        values = (self.root.get_screen('mainScreen').ids.entry1.text,)
+        db.commitToDatabase(values)
+        # list to append the values to
+        values_2 = []
+        #output that the command successfully executed
+        self.root.get_screen('mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.entry1.text} added'
+        # print(self.root.get_screen("mainScreen").ids.entry1.text)
+        for i in range(2):
+            # first get the string of what it is we want to eval
+            test_string = f'self.root.get_screen("mainScreen").ids.entry{i}.text'
+            # print(test_string)
+            # append the actaul text value of that test_string into the list
+            values_2.append(eval(test_string))
+        # to show that this works print the first value added into the list, which would be the first entry we get
+        print(values_2[0])
 
+    def showRecords(self):
+        records = db.getAllDbValues();
         word = ''
-		#loop through records in database
+		#loop through the returned records from our database
         for record in records:
             word = f'{word}\n{record[0]} {record[1]}'
             self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
-
-		#commit changes to database
-        conn.commit()
-
-		#close connection to database
-        conn.close()
     
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
-    
+
     def change_screen(self, dt):
         sm.current = "mainScreen"
-        
+
+
 if __name__ == '__main__':
     mainApp().run()
