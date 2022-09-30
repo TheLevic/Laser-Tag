@@ -28,8 +28,8 @@ class mainApp(App):
         return sm
 
     def submit(self):
-        # values = (self.root.get_screen('mainScreen').ids.name_entry0.text,)
-        # db.commitToDatabase(values)
+        values = (self.root.get_screen('mainScreen').ids.name_entry0.text,)
+        db.commitToDatabase(values)
         # list to append the values to
         kv_dict = {}
         # output that the command successfully executed
@@ -46,9 +46,7 @@ class mainApp(App):
             sub_dict = {i: {'player_name': eval(name_string), 'player_id': eval(id_string)}}
             kv_dict.update(sub_dict)
         print(kv_dict)
-        for idx in kv_dict:
-            values = (kv_dict[idx]['player_name'], kv_dict[idx]['player_id'])
-            db.commitToDatabase(values)
+
         
     def showRecords(self):
         records = db.getAllDbValues();
