@@ -28,13 +28,13 @@ class mainApp(App):
         return sm
 
     def submit(self):
-        values = (self.root.get_screen('mainScreen').ids.name_entry0.text,)
+        values = (self.root.get_screen('mainScreen').ids.name_entry0.text, self.root.get_screen('mainScreen').ids.id_entry0.text)
         db.commitToDatabase(values)
         # list to append the values to
         kv_dict = {}
         # output that the command successfully executed
         self.root.get_screen(
-            'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} added'
+            'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} {self.root.get_screen("mainScreen").ids.id_entry0.text} added'
         for i in range(15):
             # first get the string of what it is we want to eval
             name_string = f'self.root.get_screen("mainScreen").ids.name_entry{i}.text'
