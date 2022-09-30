@@ -2,9 +2,9 @@
 
 
 class Player:
-    def __init__(self):
-        self.name = None
-        self.uid = None
+    def __init__(self, name, uid):
+        self.name = name
+        self.uid = uid
         self.numPlayersHit = 0
         self.gotHit = False
         self.count_down = 20  # Countdown timer for vest to reactivate
