@@ -21,10 +21,59 @@ mainScreen:
         GridLayout:
             cols: 2
             #Headings
+            size_hint: 1, .1
             Label:
-                text: "Names"
+                text: "Red Team"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             Label:
-                text: "Id Numbers"
+                text: "Green Team"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+        GridLayout:
+            cols: 4
+            #Headings
+            Label:
+                text: "Red Team Names"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "Red Team Id Numbers"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "Green Team Names"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "Green Team Id Numbers"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             
             # All text inputs
             TextInput:
@@ -102,6 +151,83 @@ mainScreen:
             TextInput:
                 id: id_entry14
                 input_filter: "int"
+            TextInput:
+                id: name_entry15
+            TextInput:
+                id: id_entry15
+                input_filter: "int"
+            TextInput:
+                id: name_entry16
+            TextInput:
+                id: id_entry16
+                input_filter: "int"
+            TextInput:
+                id: name_entry17
+            TextInput:
+                id: id_entry17
+                input_filter: "int"
+            TextInput:
+                id: name_entry18
+            TextInput:
+                id: id_entry18
+                input_filter: "int"
+            TextInput:
+                id: name_entry19
+            TextInput:
+                id: id_entry19
+                input_filter: "int"
+            TextInput:
+                id: name_entry20
+            TextInput:
+                id: id_entry20
+                input_filter: "int"
+            TextInput:
+                id: name_entry21
+            TextInput:
+                id: id_entry21
+                input_filter: "int"
+            TextInput:
+                id: name_entry22
+            TextInput:
+                id: id_entry22
+                input_filter: "int"
+            TextInput:
+                id: name_entry23
+            TextInput:
+                id: id_entry23
+                input_filter: "int"
+            TextInput:
+                id: name_entry24
+            TextInput:
+                id: id_entry24
+                input_filter: "int"
+            TextInput:
+                id: name_entry25
+            TextInput:
+                id: id_entry25
+                input_filter: "int"
+            TextInput:
+                id: name_entry26
+            TextInput:
+                id: id_entry26
+                input_filter: "int"
+            TextInput:
+                id: name_entry27
+            TextInput:
+                id: id_entry27
+                input_filter: "int"
+            TextInput:
+                id: name_entry28
+            TextInput:
+                id: id_entry28
+                input_filter: "int"
+            TextInput:
+                id: name_entry29
+            TextInput:
+                id: id_entry29
+                input_filter: "int"
+            
+            
         Button:
             id: button
             text: "Clear Database"
@@ -112,7 +238,7 @@ mainScreen:
         Button:
 			size_hint: (1, .2)
 			text: "Submit Record"
-			on_release: 
+			on_release:
                 app.submit()
 
         Button:
