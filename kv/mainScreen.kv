@@ -104,10 +104,10 @@ mainScreen:
                 input_filter: "int"
         Button:
             id: button
-            text: "Press me"
+            text: "Clear Database"
             size_hint: 1, .2
             on_release:
-                root.myFunc()
+                app.removeRecords()
             
         Button:
 			size_hint: (1, .2)

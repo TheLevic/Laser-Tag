@@ -40,3 +40,16 @@ def getAllDbValues():
     records = c.fetchall()
 
     return records;
+
+#this function clears the records in the database
+def clearDB():
+    #connect to database
+    conn = connectToDatabase();
+    c = conn.cursor()
+
+    #command to delete all records in database
+    c.execute("DELETE FROM temp")
+
+    #commit changes and close connection to database
+    conn.commit();
+    conn.close();
