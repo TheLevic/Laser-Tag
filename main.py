@@ -28,27 +28,38 @@ class mainApp(App):
         return sm
 
     def submit(self):
-        kv_dict = {}
+        red_kv_dict = {}
+        green_kv_dict = {}
         # output that the command successfully executed
-        self.root.get_screen(
-            'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} {self.root.get_screen("mainScreen").ids.id_entry0.text} added'
+        # self.root.get_screen(
+        #     'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} {self.root.get_screen("mainScreen").ids.id_entry0.text} added'
+        # create red  and green team nested dictionary
         for i in range(15):
-            # first get the string of what it is we want to eval
-            name_string = f'self.root.get_screen("mainScreen").ids.name_entry{i}.text'
-            id_string = f'self.root.get_screen("mainScreen").ids.id_entry{i}.text'
-            # print(name_string)
-            # append the actual text value of that name_string into the list
-            if eval(name_string) == "":
+            red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
+            red_id_string = f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text'
+            green_name_string = f'self.root.get_screen("mainScreen").ids.green_name_entry{i}.text'
+            green_id_string = f'self.root.get_screen("mainScreen").ids.green_id_entry{i}.text'
+            if eval(red_name_string) == "" or eval(green_name_string) == "":
                 break
-            sub_dict = {i: {'player_name': eval(name_string), 'player_id': eval(id_string)}}
-            kv_dict.update(sub_dict)
-        print(kv_dict)
-        for idx in kv_dict:
-            values = (kv_dict[idx]['player_name'], kv_dict[idx]['player_id'])
+            red_sub_dict = {f'red_{i}': {'player_name': eval(red_name_string), 'player_id': eval(red_id_string)}}
+            green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
+            red_kv_dict.update(red_sub_dict)
+            green_kv_dict.update(green_sub_dict)
+        print(red_kv_dict)
+        print(green_kv_dict)
+        for idx in red_kv_dict:
+            values = (red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id'])
             db.commitToDatabase(values)
+            self.root.get_screen('mainScreen').ids.testBox.text = f"{red_kv_dict[idx]['player_name']} " \
+                                                                  f"{red_kv_dict[idx]['player_id']} added"
+        for idx in green_kv_dict:
+            values = (green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id'])
+            db.commitToDatabase(values)
+            self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
+                                                                  f"{green_kv_dict[idx]['player_id']} added"
 
     def showRecords(self):
-        records = db.getAllDbValues();
+        records = db.getAllDbValues()
         word = ''
         # loop through the returned records from our database
         for record in records:
@@ -56,6 +67,7 @@ class mainApp(App):
             self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
 
     def removeRecords(self):
+        print('Database cleared')
         db.clearDB()
 
     def on_start(self):
@@ -67,3 +79,4 @@ class mainApp(App):
 
 if __name__ == '__main__':
     mainApp().run()
+    
