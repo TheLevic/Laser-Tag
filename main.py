@@ -28,9 +28,6 @@ class mainApp(App):
         return sm
 
     def submit(self):
-        # values = (self.root.get_screen('mainScreen').ids.name_entry0.text, self.root.get_screen('mainScreen').ids.id_entry0.text)
-        # db.commitToDatabase(values)
-        # list to append the values to
         kv_dict = {}
         # output that the command successfully executed
         self.root.get_screen(
@@ -50,7 +47,6 @@ class mainApp(App):
             values = (kv_dict[idx]['player_name'], kv_dict[idx]['player_id'])
             db.commitToDatabase(values)
 
-        
     def showRecords(self):
         records = db.getAllDbValues();
         word = ''
@@ -58,6 +54,9 @@ class mainApp(App):
         for record in records:
             word = f'{word}\n{record[0]} {record[1]}'
             self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
+
+    def removeRecords(self):
+        db.clearDB()
 
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
