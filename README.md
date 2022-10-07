@@ -4,7 +4,8 @@
 
 1. Clone the repository
 2. Make sure your python and pip are fully up to date
-3. Use the following command:
+3. In a terminal environment navigate to the project directory and use the command:
    `pip install -r requirements.txt`
-4. Navigate to the directory in a terminal environment. Run python main.py
+4. Run python main.py
+
 ---
