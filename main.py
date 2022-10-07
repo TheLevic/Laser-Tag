@@ -39,24 +39,29 @@ class mainApp(App):
             red_id_string = f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text'
             green_name_string = f'self.root.get_screen("mainScreen").ids.green_name_entry{i}.text'
             green_id_string = f'self.root.get_screen("mainScreen").ids.green_id_entry{i}.text'
-            if eval(red_name_string) == "" or eval(green_name_string) == "":
+            if eval(red_name_string) == "" and eval(green_name_string) == "":
                 break
-            red_sub_dict = {f'red_{i}': {'player_name': eval(red_name_string), 'player_id': eval(red_id_string)}}
-            green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
-            red_kv_dict.update(red_sub_dict)
-            green_kv_dict.update(green_sub_dict)
+            if eval(red_name_string) != "":
+                red_sub_dict = {f'red_{i}': {'player_name': eval(red_name_string), 'player_id': eval(red_id_string)}}
+                red_kv_dict.update(red_sub_dict)
+            if eval(green_name_string) != "":
+                green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
+                green_kv_dict.update(green_sub_dict)
+        # print statements for debugging purposes
         print(red_kv_dict)
         print(green_kv_dict)
-        for idx in red_kv_dict:
-            values = (red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id'])
-            db.commitToDatabase(values)
-            self.root.get_screen('mainScreen').ids.testBox.text = f"{red_kv_dict[idx]['player_name']} " \
-                                                                  f"{red_kv_dict[idx]['player_id']} added"
-        for idx in green_kv_dict:
-            values = (green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id'])
-            db.commitToDatabase(values)
-            self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
-                                                                  f"{green_kv_dict[idx]['player_id']} added"
+        if red_kv_dict:
+            for idx in red_kv_dict:
+                values = (red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id'])
+                db.commitToDatabase(values)
+                self.root.get_screen('mainScreen').ids.testBox.text = f"{red_kv_dict[idx]['player_name']} " \
+                                                                      f"{red_kv_dict[idx]['player_id']} added"
+        if green_kv_dict:
+            for idx in green_kv_dict:
+                values = (green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id'])
+                db.commitToDatabase(values)
+                self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
+                                                                      f"{green_kv_dict[idx]['player_id']} added"
 
     def showRecords(self):
         records = db.getAllDbValues()
@@ -79,4 +84,3 @@ class mainApp(App):
 
 if __name__ == '__main__':
     mainApp().run()
-    
