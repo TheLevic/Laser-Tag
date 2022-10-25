@@ -5,12 +5,13 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
 import lib.db as db
-import lib.Player as Player
+from lib.Player import Player
 
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
-
+red_players = []
+green_players = []
 
 class splashScreen(Screen):
     pass
@@ -30,10 +31,8 @@ class mainApp(App):
     def submit(self):
         red_kv_dict = {}
         green_kv_dict = {}
-        # output that the command successfully executed
-        # self.root.get_screen(
-        #     'mainScreen').ids.testBox.text = f'{self.root.get_screen("mainScreen").ids.name_entry0.text} {self.root.get_screen("mainScreen").ids.id_entry0.text} added'
-        # create red  and green team nested dictionary
+
+        # create red and green team nested dictionary
         for i in range(15):
             red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
             red_id_string = f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text'
@@ -47,21 +46,29 @@ class mainApp(App):
             if eval(green_name_string) != "":
                 green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
                 green_kv_dict.update(green_sub_dict)
-        # print statements for debugging purposes
-        print(red_kv_dict)
-        print(green_kv_dict)
         if red_kv_dict:
             for idx in red_kv_dict:
                 values = (red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id'])
                 db.commitToDatabase(values)
+                red_players.append(Player(red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id']))
                 self.root.get_screen('mainScreen').ids.testBox.text = f"{red_kv_dict[idx]['player_name']} " \
                                                                       f"{red_kv_dict[idx]['player_id']} added"
         if green_kv_dict:
             for idx in green_kv_dict:
                 values = (green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id'])
                 db.commitToDatabase(values)
+                green_players.append(Player(green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id']))
                 self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
                                                                       f"{green_kv_dict[idx]['player_id']} added"
+        # additional print statements for testing purposes
+        print("The red players are: ")
+        for i in range(len(red_players)):
+            print(red_players[i].name)
+
+        print("The green players are: ")
+        for i in range(len(green_players)):
+            print(green_players[i].name)
+
 
     def showRecords(self):
         records = db.getAllDbValues()
