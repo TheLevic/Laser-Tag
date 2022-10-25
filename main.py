@@ -85,6 +85,13 @@ class mainApp(App):
                 green_players.append(Player(green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id']))
                 self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
                                                                       f"{green_kv_dict[idx]['player_id']} added"
+
+        #update values in play action screen each time new players are submitted
+        redNames = ''
+        for i in range(len(red_players)):
+            redNames = f'{redNames}\n{red_players[i].name}'
+        self.root.get_screen('playActionDisplay').ids.playerNames.text = f'{redNames}'
+
         # additional print statements for testing purposes
         print("The red players are: ")
         for i in range(len(red_players)):
