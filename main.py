@@ -1,6 +1,6 @@
 from kivy.lang import Builder
+from kivy.properties import NumericProperty
 from kivy.clock import Clock
-from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
@@ -101,6 +101,11 @@ class mainApp(App):
         for i in range(len(green_players)):
             print(green_players[i].name)
 
+        # Starts the countdown timer
+        self.updateTimer();
+
+
+
 
     def showRecords(self):
         records = db.getAllDbValues()
@@ -114,11 +119,24 @@ class mainApp(App):
         print('Database cleared')
         db.clearDB()
 
+    #Countdown timer functionality.
+    def updateTimer(self):
+        self.clockNumber = NumericProperty()
+        self.clockNumber = 60;
+        def decrementClock(interval):
+            self.clockNumber -= 1;
+            self.clockNumber = int(self.clockNumber);
+            self.root.get_screen('playActionDisplay').ids.countdownTimer.text = f'{self.clockNumber}';
+        Clock.schedule_interval(decrementClock, 1);
+        
+
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
 
     def change_screen(self, dt):
         sm.current = "mainScreen"
+
+    
 
 if __name__ == '__main__':
     mainApp().run()
