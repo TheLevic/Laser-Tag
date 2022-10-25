@@ -7,6 +7,7 @@ from kivy.core.window import Window
 import lib.db as db
 import lib.Player as Player
 
+
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
@@ -15,16 +16,40 @@ sm = ScreenManager()
 class splashScreen(Screen):
     pass
 
+class playActionDisplay(Screen):
+    pass
 
 class mainScreen(Screen):
-    def myFunc(self):
-        print("entering")
+    pass
 
+class keyboardInput(Screen):
+    def __init__(self, **kwargs):
+        super(keyboardInput, self).__init__(**kwargs)
+        self._keyboard = Window.request_keyboard(
+            self._keyboard_closed, self, 'text')
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+        self.switchScreens = False
+    
+    def _keyboard_closed(self):
+        pass
+
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] == 'f5':
+            self.switchScreens = not self.switchScreens
+            if self.switchScreens == True:
+                sm.current = "playActionDisplay"
+            if self.switchScreens == False:
+                sm.current = "mainScreen"
+            
+        # Return True to accept the key.
+        return True
 
 class mainApp(App):
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
         sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
+        sm.add_widget(Builder.load_file("kv/playActionDisplay.kv"))
+        sm.add_widget(Builder.load_file("kv/keyboardInput.kv"))
         return sm
 
     def submit(self):
@@ -80,6 +105,9 @@ class mainApp(App):
 
     def change_screen(self, dt):
         sm.current = "mainScreen"
+
+    
+    
 
 
 if __name__ == '__main__':
