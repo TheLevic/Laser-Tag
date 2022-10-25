@@ -38,9 +38,9 @@ class keyboardInput(Screen):
         if keycode[1] == 'f5':
             self.switchScreens = not self.switchScreens
             if self.switchScreens == True:
-                sm.current = "playActionDisplay"
-            if self.switchScreens == False:
                 sm.current = "mainScreen"
+            if self.switchScreens == False:
+                sm.current = "playActionDisplay"
             
         # Return True to accept the key.
         return True
@@ -103,6 +103,10 @@ class mainApp(App):
 
         # Starts the countdown timer
         self.updateTimer();
+
+        # Automatically move to playaction screen
+        sm.current = "playActionDisplay"
+
 
 
 
