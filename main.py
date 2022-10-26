@@ -84,13 +84,7 @@ class mainApp(App):
                 db.commitToDatabase(values)
                 green_players.append(Player(green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id']))
                 self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
-                                                                      f"{green_kv_dict[idx]['player_id']} added"
-
-        #update values in play action screen each time new players are submitted
-        redNames = ''
-        for i in range(len(red_players)):
-            redNames = f'{redNames}\n{red_players[i].name}'
-        self.root.get_screen('playActionDisplay').ids.playerNames.text = f'{redNames}'
+                                                                      f"{green_kv_dict[idx]['player_id']} added"        
 
         # additional print statements for testing purposes
         print("The red players are: ")
@@ -101,14 +95,14 @@ class mainApp(App):
         for i in range(len(green_players)):
             print(green_players[i].name)
 
+        #update names in play action screen
+        self.updateNames();
+
         # Starts the countdown timer
         self.updateTimer();
 
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
-
-
-
 
 
     def showRecords(self):
@@ -133,6 +127,12 @@ class mainApp(App):
             self.root.get_screen('playActionDisplay').ids.countdownTimer.text = f'{self.clockNumber}';
         Clock.schedule_interval(decrementClock, 1);
         
+    #updates the names in the play action screen
+    def updateNames(self):
+        redNames = ''
+        for i in range(len(red_players)):
+            redNames = f'{redNames}\n{red_players[i].name}'
+        self.root.get_screen('playActionDisplay').ids.playerNames.text = f'{redNames}'
 
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
