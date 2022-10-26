@@ -21,87 +21,213 @@ mainScreen:
         GridLayout:
             cols: 2
             #Headings
+            size_hint: 1, .1
             Label:
-                text: "Names"
+                text: "Red Team"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             Label:
-                text: "Id Numbers"
+                text: "Green Team"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+        GridLayout:
+            cols: 4
+            #Headings
+            Label:
+                text: "Name"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "ID"
+                canvas.before:
+                    Color:
+                        rgba: (255,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "Name"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: "ID"
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             
             # All text inputs
             TextInput:
-                id: name_entry0
+                id: red_name_entry0
             TextInput:
-                id: id_entry0
+                id: red_id_entry0
                 input_filter: "int"
             TextInput:
-                id: name_entry1
+                id: green_name_entry0
             TextInput:
-                id: id_entry1
+                id: green_id_entry0
                 input_filter: "int"
             TextInput:
-                id: name_entry2
+                id: red_name_entry1
             TextInput:
-                id: id_entry2
+                id: red_id_entry1
                 input_filter: "int"
             TextInput:
-                id: name_entry3
+                id: green_name_entry1
             TextInput:
-                id: id_entry3
+                id: green_id_entry1
                 input_filter: "int"
             TextInput:
-                id: name_entry4
+                id: red_name_entry2
             TextInput:
-                id: id_entry4
+                id: red_id_entry2
                 input_filter: "int"
             TextInput:
-                id: name_entry5
+                id: green_name_entry2
             TextInput:
-                id: id_entry5
+                id: green_id_entry2
                 input_filter: "int"
             TextInput:
-                id: name_entry6
+                id: red_name_entry3
             TextInput:
-                id: id_entry6
+                id: red_id_entry3
                 input_filter: "int"
             TextInput:
-                id: name_entry7
+                id: green_name_entry3
             TextInput:
-                id: id_entry7
+                id: green_id_entry3
                 input_filter: "int"
             TextInput:
-                id: name_entry8
+                id: red_name_entry4
             TextInput:
-                id: id_entry8
+                id: red_id_entry4
                 input_filter: "int"
             TextInput:
-                id: name_entry9
+                id: green_name_entry4
             TextInput:
-                id: id_entry9
+                id: green_id_entry4
                 input_filter: "int"
             TextInput:
-                id: name_entry10
+                id: red_name_entry5
             TextInput:
-                id: id_entry10
+                id: red_id_entry5
                 input_filter: "int"
             TextInput:
-                id: name_entry11
+                id: green_name_entry5
             TextInput:
-                id: id_entry11
+                id: green_id_entry5
                 input_filter: "int"
             TextInput:
-                id: name_entry12
+                id: red_name_entry6
             TextInput:
-                id: id_entry12
+                id: red_id_entry6
                 input_filter: "int"
             TextInput:
-                id: name_entry13
+                id: green_name_entry6
             TextInput:
-                id: id_entry13
+                id: green_id_entry6
                 input_filter: "int"
             TextInput:
-                id: name_entry14
+                id: red_name_entry7
             TextInput:
-                id: id_entry14
+                id: red_id_entry7
                 input_filter: "int"
+            TextInput:
+                id: green_name_entry7
+            TextInput:
+                id: green_id_entry7
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry8
+            TextInput:
+                id: red_id_entry8
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry8
+            TextInput:
+                id: green_id_entry8
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry9
+            TextInput:
+                id: red_id_entry9
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry9
+            TextInput:
+                id: green_id_entry9
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry10
+            TextInput:
+                id: red_id_entry10
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry10
+            TextInput:
+                id: green_id_entry10
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry11
+            TextInput:
+                id: red_id_entry11
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry11
+            TextInput:
+                id: green_id_entry11
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry12
+            TextInput:
+                id: red_id_entry12
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry12
+            TextInput:
+                id: green_id_entry12
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry13
+            TextInput:
+                id: red_id_entry13
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry13
+            TextInput:
+                id: green_id_entry13
+                input_filter: "int"
+            TextInput:
+                id: red_name_entry14
+            TextInput:
+                id: red_id_entry14
+                input_filter: "int"
+            TextInput:
+                id: green_name_entry14
+            TextInput:
+                id: green_id_entry14
+                input_filter: "int"
+            
+            
         Button:
             id: button
             text: "Clear Database"
@@ -112,7 +238,7 @@ mainScreen:
         Button:
 			size_hint: (1, .2)
 			text: "Submit Record"
-			on_release: 
+			on_release:
                 app.submit()
 
         Button:
