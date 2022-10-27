@@ -130,9 +130,12 @@ class mainApp(App):
     #updates the names in the play action screen
     def updateNames(self):
         redNames = ''
+        greenNames = ' '
         for i in range(len(red_players)):
             redNames = f'{redNames}\n{red_players[i].name}'
-        self.root.get_screen('playActionDisplay').ids.playerNames.text = f'{redNames}'
+            greenNames = f'{greenNames}\n{green_players[i].name}'
+        self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
+        self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
 
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
