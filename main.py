@@ -1,6 +1,6 @@
 from kivy.lang import Builder
+from kivy.properties import NumericProperty
 from kivy.clock import Clock
-from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.core.window import Window
@@ -38,9 +38,9 @@ class keyboardInput(Screen):
         if keycode[1] == 'f5':
             self.switchScreens = not self.switchScreens
             if self.switchScreens == True:
-                sm.current = "playActionDisplay"
-            if self.switchScreens == False:
                 sm.current = "mainScreen"
+            if self.switchScreens == False:
+                sm.current = "playActionDisplay"
             
         # Return True to accept the key.
         return True
@@ -84,7 +84,8 @@ class mainApp(App):
                 db.commitToDatabase(values)
                 green_players.append(Player(green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id']))
                 self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
-                                                                      f"{green_kv_dict[idx]['player_id']} added"
+                                                                      f"{green_kv_dict[idx]['player_id']} added"        
+
         # additional print statements for testing purposes
         print("The red players are: ")
         for i in range(len(red_players)):
@@ -93,6 +94,15 @@ class mainApp(App):
         print("The green players are: ")
         for i in range(len(green_players)):
             print(green_players[i].name)
+
+        #update names in play action screen
+        self.updateNames();
+
+        # Starts the countdown timer
+        self.updateTimer();
+
+        # Automatically move to playaction screen
+        sm.current = "playActionDisplay"
 
 
     def showRecords(self):
@@ -107,11 +117,33 @@ class mainApp(App):
         print('Database cleared')
         db.clearDB()
 
+    #Countdown timer functionality.
+    def updateTimer(self):
+        self.clockNumber = NumericProperty()
+        self.clockNumber = 60;
+        def decrementClock(interval):
+            self.clockNumber -= 1;
+            self.clockNumber = int(self.clockNumber);
+            self.root.get_screen('playActionDisplay').ids.countdownTimer.text = f'{self.clockNumber}';
+        Clock.schedule_interval(decrementClock, 1);
+        
+    #updates the names in the play action screen
+    def updateNames(self):
+        redNames = ''
+        greenNames = ' '
+        for i in range(len(red_players)):
+            redNames = f'{redNames}\n{red_players[i].name}'
+            greenNames = f'{greenNames}\n{green_players[i].name}'
+        self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
+        self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
+
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
 
     def change_screen(self, dt):
         sm.current = "mainScreen"
+
+    
 
 if __name__ == '__main__':
     mainApp().run()
