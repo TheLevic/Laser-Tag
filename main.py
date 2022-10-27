@@ -122,9 +122,10 @@ class mainApp(App):
         self.clockNumber = NumericProperty()
         self.clockNumber = 60;
         def decrementClock(interval):
-            self.clockNumber -= 1;
-            self.clockNumber = int(self.clockNumber);
-            self.root.get_screen('playActionDisplay').ids.countdownTimer.text = f'{self.clockNumber}';
+            if self.clockNumber>0:
+                self.clockNumber -= 1;
+                self.clockNumber = int(self.clockNumber);
+                self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}';
         Clock.schedule_interval(decrementClock, 1);
         
     #updates the names in the play action screen
