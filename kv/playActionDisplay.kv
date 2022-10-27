@@ -12,18 +12,35 @@ playActionDisplay:
             Label:
                 text: "Red Team"
                 font_size: 24
-                color: (1, 0, 0, 1)
                 canvas.before:
                     Color:
-                        rgba: (0, 0, 0, 1)
+                        rgba: (255,0,0,1)
                     Rectangle:
                         pos: self.pos
                         size: self.size
-        
-        Label:
-            id: playerNames
-            text: "Player names here"
-            font_size: 24
+
+            Label:
+                text: "Green Team"
+                font_size: 24
+                canvas.before:
+                    Color:
+                        rgba: (0,255,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        GridLayout:
+            cols: 2
+            size_hint: 1, 0.6
+
+            Label:
+                id: redPlayerNames
+                text: "Player names here"
+                font_size: 24
+
+            Label:
+                id: greenPlayerNames
+                text: "Player names here"
+                font_size: 24
 
         Label:
             id: playerActions
