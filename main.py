@@ -134,6 +134,7 @@ class mainApp(App):
         greenNames = ' '
         for i in range(len(red_players)):
             redNames = f'{redNames}\n{red_players[i].name}'
+        for i in range(len(green_players)):
             greenNames = f'{greenNames}\n{green_players[i].name}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
         self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
