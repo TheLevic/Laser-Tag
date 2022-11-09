@@ -22,5 +22,3 @@ class Server:
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
             print(info[0]);
-server = Server();
-server.runServer();
