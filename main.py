@@ -37,9 +37,9 @@ class keyboardInput(Screen):
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'f5':
             self.switchScreens = not self.switchScreens
-            if self.switchScreens == True:
+            if self.switchScreens is True:
                 sm.current = "mainScreen"
-            if self.switchScreens == False:
+            if self.switchScreens is False:
                 sm.current = "playActionDisplay"
             
         # Return True to accept the key.
@@ -96,14 +96,13 @@ class mainApp(App):
             print(green_players[i].name)
 
         #update names in play action screen
-        self.updateNames();
+        self.updateNames()
 
         # Starts the countdown timer
-        self.updateTimer();
+        self.updateTimer()
 
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
-
 
     def showRecords(self):
         records = db.getAllDbValues()
@@ -117,13 +116,13 @@ class mainApp(App):
         print('Database cleared')
         db.clearDB()
 
-    #Countdown timer functionality.
+    # Countdown timer functionality.
     def updateTimer(self):
         self.clockNumber = NumericProperty()
-        self.clockNumber = 60;
+        self.clockNumber = 60
         def decrementClock(interval):
             if self.clockNumber>0:
-                self.clockNumber -= 1;
+                self.clockNumber -= 1
                 self.clockNumber = int(self.clockNumber);
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}';
         Clock.schedule_interval(decrementClock, 1);
@@ -146,6 +145,5 @@ class mainApp(App):
         sm.current = "mainScreen"
 
     
-
 if __name__ == '__main__':
     mainApp().run()
