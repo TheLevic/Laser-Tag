@@ -1,4 +1,5 @@
 import socket
+import db2
 
 class Server:
     def __init__(self):
@@ -16,9 +17,16 @@ class Server:
         print("UDP Server is up a running");
         return UDPServerSocket;
 
+    def setServerStatus(self):
+        self.GameIsOn = not self.GameIsOn();
+
     # Call this method after creating our server object in main.py
     def runServer(self):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
             print(info[0]);
+            # Update the id that hit the other id's hit # in our database
+
+server = Server();
+server.runServer();
