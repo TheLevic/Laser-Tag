@@ -20,7 +20,7 @@ class Server:
         self.GameIsOn = not self.GameIsOn();
 
     # Call this method after creating our server object in main.py
-    def runServer(self, playerDict):
+    def runServer(self, playerDictRed, playerDictGreen):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
@@ -30,6 +30,3 @@ class Server:
             infoString = infoString.split(":")
             # InfoString[0] is going to be the playerId that needs hits incremented by 1
             # From here we need to use infoString[0] to find the player in the playerDict, and increment their hits by 1.
-
-server = Server();
-server.runServer();

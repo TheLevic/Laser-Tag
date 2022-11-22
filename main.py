@@ -7,7 +7,6 @@ from kivy.core.window import Window
 import lib.db as db
 from lib.Player import Player
 
-
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
