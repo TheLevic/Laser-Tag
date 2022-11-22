@@ -130,11 +130,11 @@ class mainApp(App):
     #updates the names in the play action screen
     def updateNames(self):
         redNames = ''
-        greenNames = ' '
+        greenNames = ''
         for i in range(len(red_players)):
-            redNames = f'{redNames}\n{red_players[i].name}'
+            redNames = f'{redNames}\n{red_players[i].name + " " + str(red_players[i].numPlayersHit)}'
         for i in range(len(green_players)):
-            greenNames = f'{greenNames}\n{green_players[i].name}'
+            greenNames = f'{greenNames}\n{green_players[i].name + " " + str(green_players[i].numPlayersHit)}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
         self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
 
