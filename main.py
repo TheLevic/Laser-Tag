@@ -11,8 +11,6 @@ from lib.Player import Player
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
-red_players = []
-green_players = []
 
 class splashScreen(Screen):
     pass
@@ -46,6 +44,14 @@ class keyboardInput(Screen):
         return True
 
 class mainApp(App):
+    def __init__(self):
+        super(mainApp, self).__init__();
+        self.greenPlayers = []; 
+        self.redPlayers = []
+        self.redDict = {};
+        self.greenDict = {};
+
+
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
         sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
@@ -53,10 +59,25 @@ class mainApp(App):
         sm.add_widget(Builder.load_file("kv/keyboardInput.kv"))
         return sm
 
-    def submit(self):
-        red_kv_dict = {}
-        green_kv_dict = {}
+    def loopThroughDict(self):
+        if self.redDict:
+            for idx in self.redDict:
+                values = (self.redDict[idx]['player_name'], self.redDict[idx]['player_id'])
+                db.commitToDatabase(values)
+                self.redPlayers.append(Player(self.redDict[idx]['player_name'], self.redDict[idx]['player_id']))
+                self.root.get_screen('mainScreen').ids.testBox.text = f"{self.redDict[idx]['player_name']} " \
+                                                                      f"{self.redDict[idx]['player_id']} added"
 
+        if self.greenDict:
+            if self.greenDict:
+                for idx in self.greenDict:
+                    values = (self.greenDict[idx]['player_name'], self.greenDict[idx]['player_id'])
+                    db.commitToDatabase(values)
+                    self.greenPlayers.append(Player(self.greenDict[idx]['player_name'], self.greenDict[idx]['player_id']))
+                    self.root.get_screen('mainScreen').ids.testBox.text = f"{self.greenDict[idx]['player_name']} " \
+                                                                        f"{self.greenDict[idx]['player_id']} added"        
+
+    def createNestedDict(self):
         # create red and green team nested dictionary
         for i in range(15):
             red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
@@ -67,33 +88,24 @@ class mainApp(App):
                 break
             if eval(red_name_string) != "":
                 red_sub_dict = {f'red_{i}': {'player_name': eval(red_name_string), 'player_id': eval(red_id_string)}}
-                red_kv_dict.update(red_sub_dict)
+                self.redDict.update(red_sub_dict)
             if eval(green_name_string) != "":
                 green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
-                green_kv_dict.update(green_sub_dict)
-        if red_kv_dict:
-            for idx in red_kv_dict:
-                values = (red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id'])
-                db.commitToDatabase(values)
-                red_players.append(Player(red_kv_dict[idx]['player_name'], red_kv_dict[idx]['player_id']))
-                self.root.get_screen('mainScreen').ids.testBox.text = f"{red_kv_dict[idx]['player_name']} " \
-                                                                      f"{red_kv_dict[idx]['player_id']} added"
-        if green_kv_dict:
-            for idx in green_kv_dict:
-                values = (green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id'])
-                db.commitToDatabase(values)
-                green_players.append(Player(green_kv_dict[idx]['player_name'], green_kv_dict[idx]['player_id']))
-                self.root.get_screen('mainScreen').ids.testBox.text = f"{green_kv_dict[idx]['player_name']} " \
-                                                                      f"{green_kv_dict[idx]['player_id']} added"        
+                self.greenDict.update(green_sub_dict)
+        self.loopThroughDict();         
+            
 
+    def submit(self):
+        
+        self.createNestedDict();
         # additional print statements for testing purposes
         print("The red players are: ")
-        for i in range(len(red_players)):
-            print(red_players[i].name)
+        for i in range(len(self.redPlayers)):
+            print(self.redPlayers[i].name)
 
         print("The green players are: ")
-        for i in range(len(green_players)):
-            print(green_players[i].name)
+        for i in range(len(self.greenPlayers)):
+            print(self.greenPlayers[i].name)
 
         #update names in play action screen
         self.updateNames();
@@ -132,10 +144,10 @@ class mainApp(App):
     def updateNames(self):
         redNames = ''
         greenNames = ' '
-        for i in range(len(red_players)):
-            redNames = f'{redNames}\n{red_players[i].name}'
-        for i in range(len(green_players)):
-            greenNames = f'{greenNames}\n{green_players[i].name}'
+        for i in range(len(self.redPlayers)):
+            redNames = f'{redNames}\n{self.redPlayers[i].name}'
+        for i in range(len(self.greenPlayers)):
+            greenNames = f'{greenNames}\n{self.greenPlayers[i].name}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
         self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
 
