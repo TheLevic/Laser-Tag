@@ -6,7 +6,6 @@ from kivy.app import App
 from kivy.core.window import Window
 import lib.db as db
 from lib.Player import Player
-import server
 
 Window.fullscreen = False
 Window.size = (800, 800)
@@ -113,9 +112,6 @@ class mainApp(App):
         # Starts the countdown timer
         self.updateTimer()
 
-        #Going to want to start our server here
-        server = server.Server();
-        server.startServer(self.redDict,self.greenDict);
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
 
