@@ -1,5 +1,4 @@
 import socket
-import db2
 
 class Server:
     def __init__(self):
@@ -25,8 +24,14 @@ class Server:
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
-            print(info[0]);
-            # Update the id that hit the other id's hit # in our database
+            playerHit = info[0];
+            # Parse the infomation, going from bytes form to string.
+            infoString = playerHit.decode("utf-8");
+            print(infoString)
+            infoString = infoString.split(":")
+            # InfoString[0] is going to be the playerId that needs hits incremented by 1
+            
+            
 
 server = Server();
 server.runServer();
