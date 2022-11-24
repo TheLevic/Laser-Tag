@@ -10,6 +10,7 @@ from lib.Player import Player
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
+switchScreens = False
 
 class splashScreen(Screen):
     pass
@@ -37,6 +38,8 @@ class keyboardInput(Screen):
             if self.switchScreens is False:
                 sm.current = "mainScreen"
             if self.switchScreens is True:
+                global switchScreens
+                switchScreens = True
                 sm.current = "playActionDisplay"
             
         # Return True to accept the key.
@@ -44,11 +47,11 @@ class keyboardInput(Screen):
 
 class mainApp(App):
     def __init__(self):
-        super(mainApp, self).__init__();
-        self.greenPlayers = []; 
+        super(mainApp, self).__init__()
+        self.greenPlayers = [] 
         self.redPlayers = []
-        self.redDict = {};
-        self.greenDict = {};
+        self.redDict = {}
+        self.greenDict = {}
 
 
     def build(self):
@@ -113,7 +116,14 @@ class mainApp(App):
         self.updateTimer()
 
         # Automatically move to playaction screen
-        sm.current = "playActionDisplay"
+        # sm.current = "playActionDisplay"
+
+    def f5StartGame(self, dt):
+        global switchScreens
+        if switchScreens is True:
+            self.updateTimer()
+            
+
 
     def showRecords(self):
         records = db.getAllDbValues()
@@ -134,9 +144,9 @@ class mainApp(App):
         def decrementClock(interval):
             if self.clockNumber>0:
                 self.clockNumber -= 1
-                self.clockNumber = int(self.clockNumber);
-                self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}';
-        Clock.schedule_interval(decrementClock, 1);
+                self.clockNumber = int(self.clockNumber)
+                self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
+        Clock.schedule_interval(decrementClock, 1)
         
     #updates the names in the play action screen
     def updateNames(self):
@@ -151,6 +161,7 @@ class mainApp(App):
 
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
+        Clock.schedule_interval(self.f5StartGame, 1)
 
     def change_screen(self, dt):
         sm.current = "mainScreen"
