@@ -34,9 +34,9 @@ class keyboardInput(Screen):
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'f5':
             self.switchScreens = not self.switchScreens
-            if self.switchScreens is True:
-                sm.current = "mainScreen"
             if self.switchScreens is False:
+                sm.current = "mainScreen"
+            if self.switchScreens is True:
                 sm.current = "playActionDisplay"
             
         # Return True to accept the key.
