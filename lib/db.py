@@ -18,7 +18,6 @@ def commitToDatabase(values):
     c = conn.cursor();
 
     # Insert command
-
     sql_command = "INSERT INTO temp VALUES" + str(values)
     
     #execute command
