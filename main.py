@@ -12,14 +12,18 @@ Window.size = (800, 800)
 sm = ScreenManager()
 switchScreens = False
 
+
 class splashScreen(Screen):
     pass
+
 
 class playActionDisplay(Screen):
     pass
 
+
 class mainScreen(Screen):
     pass
+
 
 class keyboardInput(Screen):
     def __init__(self, **kwargs):
@@ -45,6 +49,7 @@ class keyboardInput(Screen):
         # Return True to accept the key.
         return True
 
+
 class mainApp(App):
     def __init__(self):
         super(mainApp, self).__init__()
@@ -53,7 +58,6 @@ class mainApp(App):
         self.redDict = {}
         self.greenDict = {}
 
-
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
         sm.add_widget(Builder.load_file("kv/mainScreen.kv"))
@@ -61,23 +65,14 @@ class mainApp(App):
         sm.add_widget(Builder.load_file("kv/keyboardInput.kv"))
         return sm
 
-    def loopThroughDict(self):
-        if self.redDict:
-            for idx in self.redDict:
-                values = (self.redDict[idx]['player_name'], self.redDict[idx]['player_id'])
+    def loopThroughDict(self, team_dict, team_list):
+        if team_dict:
+            for idx in team_dict:
+                values = (team_dict[idx]['player_name'], team_dict[idx]['player_id'])
                 db.commitToDatabase(values)
-                self.redPlayers.append(Player(self.redDict[idx]['player_name'], self.redDict[idx]['player_id']))
-                self.root.get_screen('mainScreen').ids.testBox.text = f"{self.redDict[idx]['player_name']} " \
-                                                                      f"{self.redDict[idx]['player_id']} added"
-
-        if self.greenDict:
-            if self.greenDict:
-                for idx in self.greenDict:
-                    values = (self.greenDict[idx]['player_name'], self.greenDict[idx]['player_id'])
-                    db.commitToDatabase(values)
-                    self.greenPlayers.append(Player(self.greenDict[idx]['player_name'], self.greenDict[idx]['player_id']))
-                    self.root.get_screen('mainScreen').ids.testBox.text = f"{self.greenDict[idx]['player_name']} " \
-                                                                        f"{self.greenDict[idx]['player_id']} added"        
+                team_list.append(Player(team_dict[idx]['player_name'], team_dict[idx]['player_id']))
+                self.root.get_screen('mainScreen').ids.testBox.text = f"{team_dict[idx]['player_name']} " \
+                                                                      f"{team_dict[idx]['player_id']} added"
 
     def createNestedDict(self):
         # create red and green team nested dictionary
@@ -94,12 +89,13 @@ class mainApp(App):
             if eval(green_name_string) != "":
                 green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
                 self.greenDict.update(green_sub_dict)
-        self.loopThroughDict();         
+        self.loopThroughDict(self.redDict, self.redPlayers)
+        self.loopThroughDict(self.greenDict, self.greenPlayers)
             
 
     def submit(self):
         
-        self.createNestedDict();
+        self.createNestedDict()
         # additional print statements for testing purposes
         print("The red players are: ")
         for i in range(len(self.redPlayers)):
@@ -109,7 +105,7 @@ class mainApp(App):
         for i in range(len(self.greenPlayers)):
             print(self.greenPlayers[i].name)
 
-        #update names in play action screen
+        # update names in play action screen
         self.updateNames()
 
         # Starts the countdown timer
@@ -122,8 +118,6 @@ class mainApp(App):
         global switchScreens
         if switchScreens is True:
             self.updateTimer()
-            
-
 
     def showRecords(self):
         records = db.getAllDbValues()
@@ -141,6 +135,7 @@ class mainApp(App):
     def updateTimer(self):
         self.clockNumber = NumericProperty()
         self.clockNumber = 60
+
         def decrementClock(interval):
             if self.clockNumber>0:
                 self.clockNumber -= 1
@@ -148,7 +143,7 @@ class mainApp(App):
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
         Clock.schedule_interval(decrementClock, 1)
         
-    #updates the names in the play action screen
+    # updates the names in the play action screen
     def updateNames(self):
         redNames = ''
         greenNames = ' '
