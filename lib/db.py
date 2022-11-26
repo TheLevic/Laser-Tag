@@ -21,7 +21,10 @@ def commitToDatabase(values):
     sql_command = "INSERT INTO Players VALUES" + str(values)
     
     #execute command
-    c.execute(sql_command)
+    try:
+        c.execute(sql_command)
+    except:
+        print("ID already exists. Try again.")
 
     # Commit changes and close connection
     conn.commit();
