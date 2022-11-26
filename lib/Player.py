@@ -45,6 +45,3 @@ class Player:
     def update(self):
         self.toggleLife()
         self.countdown()
-        
-        
-    
