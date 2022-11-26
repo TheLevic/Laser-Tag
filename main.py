@@ -6,6 +6,8 @@ from kivy.app import App
 from kivy.core.window import Window
 import lib.db as db
 from lib.Player import Player
+import lib.server 
+from threading import Thread
 
 Window.fullscreen = False
 Window.size = (800, 800)
@@ -54,9 +56,11 @@ class keyboardInput(Screen):
 class mainApp(App):
     def __init__(self):
         super(mainApp, self).__init__()
+        self.server = lib.server.Server();
         self.players_list = []
         self.greenPlayers = [] 
         self.redPlayers = []
+        self.displayString = [];
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -89,6 +93,8 @@ class mainApp(App):
         for player in self.players_list:
             values = (player.name, player.uid)
             db.commitToDatabase(values)
+        global createdNest
+        createdNest = False
 
     def submit(self):
         self.get_players()
@@ -114,6 +120,10 @@ class mainApp(App):
 
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
+         
+         #Start the server as a thread
+        self.serverThread = Thread(target=self.server.runServer,args=(self.players_list,self.displayString,));
+        self.serverThread.start();
 
     def f5StartGame(self, dt):
         global switchScreens
