@@ -13,14 +13,14 @@ class Server:
         UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM);
         # Binding the server to our IP
         UDPServerSocket.bind((address, port));
-        print("UDP Server is up a running");
+        print("UDP Server is up and running");
         return UDPServerSocket;
 
     def setServerStatus(self):
         self.GameIsOn = not self.GameIsOn;
 
     # Call this method after creating our server object in main.py
-    def runServer(self, playerList, displayString: list):
+    def runServer(self, playerList, displayString):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
@@ -35,6 +35,7 @@ class Server:
             for player in playerList:
                 if player.uid == infoString[0]:
                     player.numHits += 1;
+                    print(f'Player {player.uid} has hit player {infoString[1]}');
                     displayString.append(f'Player {player.uid} has hit player {infoString[1]}');
                     if len(displayString) > 10:
                         displayString.pop(9);
