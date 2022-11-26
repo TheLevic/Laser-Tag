@@ -20,7 +20,7 @@ class Server:
         self.GameIsOn = not self.GameIsOn;
 
     # Call this method after creating our server object in main.py
-    def runServer(self, playerList, displayString: list):
+    def runServer(self, playerList, displayString):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
@@ -35,6 +35,7 @@ class Server:
             for player in playerList:
                 if player.uid == infoString[0]:
                     player.numHits += 1;
+                    print(f'Player {player.uid} has hit player {infoString[1]}');
                     displayString.append(f'Player {player.uid} has hit player {infoString[1]}');
                     if len(displayString) > 10:
                         displayString.pop(9);
