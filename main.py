@@ -123,6 +123,7 @@ class mainApp(App):
          
          #Start the server as a thread
         self.serverThread = Thread(target=self.server.runServer,args=(self.players_list,self.displayString,));
+        self.serverThread.start();
 
     def f5StartGame(self, dt):
         global switchScreens

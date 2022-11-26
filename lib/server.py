@@ -35,6 +35,7 @@ class Server:
             for player in playerList:
                 if player.uid == infoString[0]:
                     player.numHits += 1;
+                    print(f'Player {player.uid} has hit player {infoString[1]}');
                     displayString.append(f'Player {player.uid} has hit player {infoString[1]}');
                     if len(displayString) > 10:
                         displayString.pop(9);
