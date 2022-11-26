@@ -228,28 +228,8 @@ mainScreen:
                 id: green_id_entry14
                 input_filter: "int"
             
-            
-        Button:
-            id: button
-            text: "Clear Database"
-            size_hint: 1, .2
-            on_release:
-                app.removeRecords()
-            
         Button:
 			size_hint: (1, .2)
 			text: "Submit Record"
 			on_release:
                 app.submit()
-
-        Button:
-			size_hint: (1, .2)
-			text: "Show Records"
-			on_release: 
-                app.showRecords()
-
-        Label:
-            id: testBox
-            text: "Records will show here"
-            font_size: 16
-            size_hint: 1, .5
