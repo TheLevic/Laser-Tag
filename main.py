@@ -11,6 +11,7 @@ Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
 switchScreens = False
+createdNest = True
 
 
 class splashScreen(Screen):
@@ -123,10 +124,15 @@ class mainApp(App):
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
 
-    def f5StartGame(self, dt):
+  def f5StartGame(self, dt):
         global switchScreens
+        global createdNest
         if switchScreens is True:
             self.updateTimer()
+            self.updateNames()
+
+            if createdNest is True:
+                self.createNestedDict()
 
     def showRecords(self):
         records = db.getAllDbValues()
