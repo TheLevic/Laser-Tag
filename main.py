@@ -56,11 +56,12 @@ class keyboardInput(Screen):
 class mainApp(App):
     def __init__(self):
         super(mainApp, self).__init__()
-        self.server = lib.server.Server();
+        self.server = lib.server.Server()
         self.players_list = []
         self.greenPlayers = [] 
         self.redPlayers = []
-        self.displayString = [];
+        self.players_dict = {}
+        self.displayString = []
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -88,10 +89,13 @@ class mainApp(App):
                 self.greenPlayers.append(Player(eval(green_name_string), eval(green_id_string)))
         for player in self.redPlayers:
             player.color = "Red"
+            self.players_dict.update({player.uid: player})
             self.players_list.append(player)
         for player in self.greenPlayers:
             player.color = "Green"
+            self.players_dict.update({player.uid: player})
             self.players_list.append(player)
+
         for player in self.players_list:
             values = (player.name, player.uid)
             db.commitToDatabase(values)
@@ -100,8 +104,12 @@ class mainApp(App):
 
     def submit(self):
         self.get_players()
-        for player in self.players_list:
-            print(f"{player.name} is a member of the {player.color} team")
+        for key, value in self.players_dict.items():
+            print(key)
+            print(value)
+
+        # for player in self.players_list:
+        #     print(f"{player.name} is a member of the {player.color} team")
 
         # Alternative way of printing the statements for preference
         # print("The red players are: ")
