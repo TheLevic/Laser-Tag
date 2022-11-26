@@ -89,6 +89,8 @@ class mainApp(App):
         for player in self.players_list:
             values = (player.name, player.uid)
             db.commitToDatabase(values)
+        global createdNest
+        createdNest = False
 
     def submit(self):
         self.get_players()
