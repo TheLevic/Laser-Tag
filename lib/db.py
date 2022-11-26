@@ -61,7 +61,7 @@ def getName(id):
     c = conn.cursor()
 
     #query for name given ID
-    c.execute("SELECT Name FROM Test WHERE ID = " + str(id))
+    c.execute("SELECT Name FROM Players WHERE ID = " + str(id))
     name = c.fetchall()
 
     conn.commit();
