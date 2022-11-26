@@ -18,7 +18,7 @@ def commitToDatabase(values):
     c = conn.cursor();
 
     # Insert command
-    sql_command = "INSERT INTO temp VALUES" + str(values)
+    sql_command = "INSERT INTO Players VALUES" + str(values)
     
     #execute command
     c.execute(sql_command)
@@ -35,7 +35,7 @@ def getAllDbValues():
     c = conn.cursor()
 
     #retreive records from database
-    c.execute("SELECT * FROM temp")
+    c.execute("SELECT * FROM Players")
     records = c.fetchall()
 
     return records;
@@ -47,7 +47,7 @@ def clearDB():
     c = conn.cursor()
 
     #command to delete all records in database
-    c.execute("DELETE FROM temp")
+    c.execute("DELETE FROM Players")
 
     #commit changes and close connection to database
     conn.commit();
