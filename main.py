@@ -73,8 +73,8 @@ class mainApp(App):
                 values = (team_dict[idx]['player_name'], team_dict[idx]['player_id'])
                 db.commitToDatabase(values)
                 team_list.append(Player(team_dict[idx]['player_name'], team_dict[idx]['player_id']))
-                self.root.get_screen('mainScreen').ids.testBox.text = f"{team_dict[idx]['player_name']} " \
-                                                                      f"{team_dict[idx]['player_id']} added"
+                #self.root.get_screen('mainScreen').ids.testBox.text = f"{team_dict[idx]['player_name']} " \
+                #                                                      f"{team_dict[idx]['player_id']} added"
 
     def createNestedDict(self):
         # create red and green team nested dictionary
@@ -124,7 +124,7 @@ class mainApp(App):
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
 
-  def f5StartGame(self, dt):
+    def f5StartGame(self, dt):
         global switchScreens
         global createdNest
         if switchScreens is True:
@@ -140,7 +140,7 @@ class mainApp(App):
         # loop through the returned records from our database
         for record in records:
             word = f'{word}\n{record[0]} {record[1]}'
-            self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
+            #self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
 
     def removeRecords(self):
         print('Database cleared')
@@ -161,7 +161,7 @@ class mainApp(App):
     # updates the names in the play action screen
     def updateNames(self):
         redNames = ''
-        greenNames = ' '
+        greenNames = ''
         for i in range(len(self.redPlayers)):
             redNames = f'{redNames}\n{self.redPlayers[i].name}'
         for i in range(len(self.greenPlayers)):
