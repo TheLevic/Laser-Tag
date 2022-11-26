@@ -20,7 +20,7 @@ class Server:
         self.GameIsOn = not self.GameIsOn;
 
     # Call this method after creating our server object in main.py
-    def runServer(self, playerList, displayString: list):
+    def runServer(self, playerList, displayString):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
