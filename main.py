@@ -14,6 +14,7 @@ Window.size = (800, 800)
 sm = ScreenManager()
 switchScreens = False
 createdNest = True
+updateTimer = True
 
 
 class splashScreen(Screen):
@@ -138,9 +139,12 @@ class mainApp(App):
     def f5StartGame(self, dt):
         global switchScreens
         global createdNest
+        global updateTimer
         if switchScreens is True:
-            self.updateTimer()
             self.updateNames()
+            if updateTimer is True:
+                self.updateTimer()
+                
 
             if createdNest is True:
                 self.get_players()
@@ -168,6 +172,8 @@ class mainApp(App):
                 self.clockNumber = int(self.clockNumber)
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
         Clock.schedule_interval(decrementClock, 1)
+        global updateTimer
+        updateTimer = False
         
     # updates the names in the play action screen
     def updateNames(self):
