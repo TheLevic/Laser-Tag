@@ -112,7 +112,7 @@ class mainApp(App):
         self.updateTimer()
 
         # Automatically move to playaction screen
-        # sm.current = "playActionDisplay"
+        sm.current = "playActionDisplay"
 
     def f5StartGame(self, dt):
         global switchScreens
