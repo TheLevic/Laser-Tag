@@ -73,6 +73,7 @@ class mainApp(App):
 
     def get_players(self):
         # create red and green team nested dictionary
+        db.clearDB()
         for i in range(15):
             red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
             red_id_string = f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text'
