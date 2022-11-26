@@ -57,8 +57,6 @@ class mainApp(App):
         self.players_list = []
         self.greenPlayers = [] 
         self.redPlayers = []
-        self.redDict = {}
-        self.greenDict = {}
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -67,16 +65,9 @@ class mainApp(App):
         sm.add_widget(Builder.load_file("kv/keyboardInput.kv"))
         return sm
 
-    def loopThroughDict(self, team_dict, team_list):
-        if team_dict:
-            for idx in team_dict:
-                values = (team_dict[idx]['player_name'], team_dict[idx]['player_id'])
-                db.commitToDatabase(values)
-                team_list.append(Player(team_dict[idx]['player_name'], team_dict[idx]['player_id']))
-                #self.root.get_screen('mainScreen').ids.testBox.text = f"{team_dict[idx]['player_name']} " \
-                #                                                      f"{team_dict[idx]['player_id']} added"
 
-    def createNestedDict(self):
+
+    def get_players(self):
         # create red and green team nested dictionary
         for i in range(15):
             red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
@@ -86,25 +77,25 @@ class mainApp(App):
             if eval(red_name_string) == "" and eval(green_name_string) == "":
                 break
             if eval(red_name_string) != "":
-                red_sub_dict = {f'red_{i}': {'player_name': eval(red_name_string), 'player_id': eval(red_id_string)}}
-                self.redDict.update(red_sub_dict)
+                self.redPlayers.append(Player(eval(red_name_string), eval(red_id_string)))
             if eval(green_name_string) != "":
-                green_sub_dict = {f'green_{i}': {'player_name': eval(green_name_string), 'player_id': eval(green_id_string)}}
-                self.greenDict.update(green_sub_dict)
-        self.loopThroughDict(self.redDict, self.redPlayers)
-        self.loopThroughDict(self.greenDict, self.greenPlayers)
+                self.greenPlayers.append(Player(eval(green_name_string), eval(green_id_string)))
         for player in self.redPlayers:
             player.color = "Red"
             self.players_list.append(player)
         for player in self.greenPlayers:
             player.color = "Green"
             self.players_list.append(player)
+        for player in self.players_list:
+            values = (player.name, player.uid)
+            db.commitToDatabase(values)
 
     def submit(self):
-        self.createNestedDict()
+        self.get_players()
         for player in self.players_list:
             print(f"{player.name} is a member of the {player.color} team")
 
+        # Alternative way of printing the statements for preference
         # print("The red players are: ")
         # for i in range(len(self.players_list)):
         #     if self.players_list[i].color == "Red":
@@ -132,7 +123,7 @@ class mainApp(App):
             self.updateNames()
 
             if createdNest is True:
-                self.createNestedDict()
+                self.get_players()
 
     def showRecords(self):
         records = db.getAllDbValues()

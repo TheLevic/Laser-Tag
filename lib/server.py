@@ -17,7 +17,7 @@ class Server:
         return UDPServerSocket;
 
     def setServerStatus(self):
-        self.GameIsOn = not self.GameIsOn();
+        self.GameIsOn = not self.GameIsOn;
 
     # Call this method after creating our server object in main.py
     def runServer(self, playerList, displayString: list):
