@@ -55,3 +55,16 @@ def clearDB():
     #commit changes and close connection to database
     conn.commit();
     conn.close();
+
+def getName(id):
+    conn = connectToDatabase();
+    c = conn.cursor()
+
+    #query for name given ID
+    c.execute("SELECT Name FROM Players WHERE ID = " + str(id))
+    name = c.fetchall()
+
+    conn.commit();
+    conn.close();
+
+    return name

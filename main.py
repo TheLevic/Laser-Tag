@@ -8,12 +8,14 @@ import lib.db as db
 from lib.Player import Player
 import lib.server 
 from threading import Thread
+import re
 
 Window.fullscreen = False
 Window.size = (800, 800)
 sm = ScreenManager()
 switchScreens = False
 createdNest = True
+updateTimer = True
 
 
 class splashScreen(Screen):
@@ -71,11 +73,26 @@ class mainApp(App):
         return sm
 
     def insertNames(self):
+        for i in range(15):
+            #loop through red players
+            id = eval(f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text')
+            if(id != ''):
+                name = db.getName(id)
+                regex = re.compile('[^a-zA-Z]')
+                name = regex.sub('', str(name))
+                exec(f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text = str(name)')
+            #loop through green players
+            id = eval(f'self.root.get_screen("mainScreen").ids.green_id_entry{i}.text')
+            if(id != ''):
+                name = db.getName(id)
+                regex = re.compile('[^a-zA-Z]')
+                name = regex.sub('', str(name))
+                exec(f'self.root.get_screen("mainScreen").ids.green_name_entry{i}.text = str(name)')
         print("Names should be inserted")
 
     def get_players(self):
         # create red and green team nested dictionary
-        db.clearDB()
+        #db.clearDB()
         for i in range(15):
             red_name_string = f'self.root.get_screen("mainScreen").ids.red_name_entry{i}.text'
             red_id_string = f'self.root.get_screen("mainScreen").ids.red_id_entry{i}.text'
@@ -132,15 +149,18 @@ class mainApp(App):
         sm.current = "playActionDisplay"
          
          #Start the server as a thread
-        self.serverThread = Thread(target=self.server.runServer,args=(self.players_list,self.displayString,));
+        self.serverThread = Thread(target=self.server.runServer,args=(self.players_dict,self.displayString,));
         self.serverThread.start();
 
     def f5StartGame(self, dt):
         global switchScreens
         global createdNest
+        global updateTimer
         if switchScreens is True:
-            self.updateTimer()
             self.updateNames()
+            if updateTimer is True:
+                self.updateTimer()
+                
 
             if createdNest is True:
                 self.get_players()
@@ -168,6 +188,8 @@ class mainApp(App):
                 self.clockNumber = int(self.clockNumber)
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
         Clock.schedule_interval(decrementClock, 1)
+        global updateTimer
+        updateTimer = False
         
     # updates the names in the play action screen
     def updateNames(self):
@@ -179,6 +201,7 @@ class mainApp(App):
             greenNames = f'{greenNames}\n{self.greenPlayers[i].name}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
         self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
+        self.root.get_screen('playActionDisplay').ids.playerActions.text = f'{self.displayString}'
 
     def on_start(self):
         Clock.schedule_once(self.change_screen, 3)
