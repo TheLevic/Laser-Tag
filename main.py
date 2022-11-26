@@ -65,7 +65,8 @@ class mainApp(App):
         sm.add_widget(Builder.load_file("kv/keyboardInput.kv"))
         return sm
 
-
+    def insertNames(self):
+        print("Names should be inserted")
 
     def get_players(self):
         # create red and green team nested dictionary
