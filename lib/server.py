@@ -20,7 +20,7 @@ class Server:
         self.GameIsOn = not self.GameIsOn;
 
     # Call this method after creating our server object in main.py
-    def runServer(self, playerList, displayString):
+    def runServer(self, playerDict, displayString):
         server = self.createSocket(self.address, self.port);
         while self.GameIsOn:
             info = server.recvfrom(self.bufferSize);
@@ -32,10 +32,7 @@ class Server:
             # From here we need to use infoString[0] to find the player in the playerDict, and increment their hits by 1.
             
             #Loop through each of the lists and see if player.uid == infoString[0]
-            for player in playerList:
-                if player.uid == infoString[0]:
-                    player.numHits += 1;
-                    print(f'Player {player.uid} has hit player {infoString[1]}');
-                    displayString.append(f'Player {player.uid} has hit player {infoString[1]}');
-                    if len(displayString) > 10:
-                        displayString.pop(9);
+            playerThatHit = playerDict[infoString[0]];
+            playerThatHit.numHits += 1;
+            playerGotHit = playerDict[infoString[1]];
+            displayString.append(f"Player {playerThatHit.name} hit player {playerGotHit.name}.");

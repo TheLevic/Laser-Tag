@@ -15,6 +15,7 @@ Window.size = (800, 800)
 sm = ScreenManager()
 switchScreens = False
 createdNest = True
+updateTimer = True
 
 
 class splashScreen(Screen):
@@ -57,11 +58,12 @@ class keyboardInput(Screen):
 class mainApp(App):
     def __init__(self):
         super(mainApp, self).__init__()
-        self.server = lib.server.Server();
+        self.server = lib.server.Server()
         self.players_list = []
         self.greenPlayers = [] 
         self.redPlayers = []
-        self.displayString = [];
+        self.players_dict = {}
+        self.displayString = []
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -104,10 +106,13 @@ class mainApp(App):
                 self.greenPlayers.append(Player(eval(green_name_string), eval(green_id_string)))
         for player in self.redPlayers:
             player.color = "Red"
+            self.players_dict.update({player.uid: player})
             self.players_list.append(player)
         for player in self.greenPlayers:
             player.color = "Green"
+            self.players_dict.update({player.uid: player})
             self.players_list.append(player)
+
         for player in self.players_list:
             values = (player.name, player.uid)
             db.commitToDatabase(values)
@@ -116,8 +121,12 @@ class mainApp(App):
 
     def submit(self):
         self.get_players()
-        for player in self.players_list:
-            print(f"{player.name} is a member of the {player.color} team")
+        for key, value in self.players_dict.items():
+            print(key)
+            print(value)
+
+        # for player in self.players_list:
+        #     print(f"{player.name} is a member of the {player.color} team")
 
         # Alternative way of printing the statements for preference
         # print("The red players are: ")
@@ -140,15 +149,18 @@ class mainApp(App):
         sm.current = "playActionDisplay"
          
          #Start the server as a thread
-        self.serverThread = Thread(target=self.server.runServer,args=(self.players_list,self.displayString,));
+        self.serverThread = Thread(target=self.server.runServer,args=(self.players_dict,self.displayString,));
         self.serverThread.start();
 
     def f5StartGame(self, dt):
         global switchScreens
         global createdNest
+        global updateTimer
         if switchScreens is True:
-            self.updateTimer()
             self.updateNames()
+            if updateTimer is True:
+                self.updateTimer()
+                
 
             if createdNest is True:
                 self.get_players()
@@ -176,6 +188,8 @@ class mainApp(App):
                 self.clockNumber = int(self.clockNumber)
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
         Clock.schedule_interval(decrementClock, 1)
+        global updateTimer
+        updateTimer = False
         
     # updates the names in the play action screen
     def updateNames(self):
