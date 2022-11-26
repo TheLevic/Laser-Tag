@@ -53,6 +53,7 @@ class keyboardInput(Screen):
 class mainApp(App):
     def __init__(self):
         super(mainApp, self).__init__()
+        self.players_list = []
         self.greenPlayers = [] 
         self.redPlayers = []
         self.redDict = {}
@@ -91,19 +92,27 @@ class mainApp(App):
                 self.greenDict.update(green_sub_dict)
         self.loopThroughDict(self.redDict, self.redPlayers)
         self.loopThroughDict(self.greenDict, self.greenPlayers)
-            
+        for player in self.redPlayers:
+            player.color = "Red"
+            self.players_list.append(player)
+        for player in self.greenPlayers:
+            player.color = "Green"
+            self.players_list.append(player)
 
     def submit(self):
-        
         self.createNestedDict()
-        # additional print statements for testing purposes
-        print("The red players are: ")
-        for i in range(len(self.redPlayers)):
-            print(self.redPlayers[i].name)
+        for player in self.players_list:
+            print(f"{player.name} is a member of the {player.color} team")
 
-        print("The green players are: ")
-        for i in range(len(self.greenPlayers)):
-            print(self.greenPlayers[i].name)
+        # print("The red players are: ")
+        # for i in range(len(self.players_list)):
+        #     if self.players_list[i].color == "Red":
+        #         print(self.players_list[i].name)
+        #
+        # print("The green players are: ")
+        # for i in range(len(self.players_list)):
+        #     if self.players_list[i].color == "Green":
+        #         print(self.players_list[i].name)
 
         # update names in play action screen
         self.updateNames()
