@@ -140,7 +140,7 @@ class mainApp(App):
         #         print(self.players_list[i].name)
 
         # update names in play action screen
-        self.updateNames()
+        # self.updateNames()
 
         # Starts the countdown timer
         self.updateTimer()
@@ -192,11 +192,13 @@ class mainApp(App):
         updateTimer = False
         
     # updates the names in the play action screen
-    def updateNames(self):
+    def updateNames(self,dt):
+        if len(self.displayString) > 10:
+            self.displayString.pop(0);
         redNames = ''
         greenNames = ''
         for i in range(len(self.redPlayers)):
-            redNames = f'{redNames}\n{self.redPlayers[i].name}'
+            redNames = f'{redNames}\n{self.redPlayers[i].name + " " + str(self.redPlayers[i].numHits)}'
         for i in range(len(self.greenPlayers)):
             greenNames = f'{greenNames}\n{self.greenPlayers[i].name}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
@@ -204,6 +206,7 @@ class mainApp(App):
         self.root.get_screen('playActionDisplay').ids.playerActions.text = f'{self.displayString}'
 
     def on_start(self):
+        Clock.schedule_interval(self.updateNames,1);
         Clock.schedule_once(self.change_screen, 3)
         Clock.schedule_interval(self.f5StartGame, 1)
 
