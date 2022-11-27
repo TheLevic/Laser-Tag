@@ -64,6 +64,8 @@ class mainApp(App):
         self.redPlayers = []
         self.players_dict = {}
         self.displayString = []
+        self.redScore =0
+        self.greenScore =0
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -198,9 +200,9 @@ class mainApp(App):
         redNames = ''
         greenNames = ''
         for i in range(len(self.redPlayers)):
-            redNames = f'{redNames}\n{self.redPlayers[i].name + " " + str(self.redPlayers[i].numHits)}'
+            redNames = f'{redNames}\n{self.redPlayers[i].name + " " + str(self.redPlayers[i].numHits *100)}'
         for i in range(len(self.greenPlayers)):
-            greenNames = f'{greenNames}\n{self.greenPlayers[i].name}'
+            greenNames = f'{greenNames}\n{self.greenPlayers[i].name+ " " + str(self.greenPlayers[i].numHits*100)}'
         self.root.get_screen('playActionDisplay').ids.redPlayerNames.text = f'{redNames}'
         self.root.get_screen('playActionDisplay').ids.greenPlayerNames.text = f'{greenNames}'
         self.root.get_screen('playActionDisplay').ids.playerActions.text = f'{self.displayString}'
@@ -209,10 +211,20 @@ class mainApp(App):
         Clock.schedule_interval(self.updateNames,1);
         Clock.schedule_once(self.change_screen, 3)
         Clock.schedule_interval(self.f5StartGame, 1)
+        Clock.schedule_interval(self.updateTeamscores,1);
 
     def change_screen(self, dt):
         sm.current = "mainScreen"
 
+    def updateTeamscores(self,dt):
+        redScore = 0
+        greenScore = 0
+        for i in range(len(self.redPlayers)):
+            redScore += self.redPlayers[i].numHits 
+        for i in range(len(self.greenPlayers)):
+            greenScore += self.greenPlayers[i].numHits 
+        self.root.get_screen('playActionDisplay').ids.redScore.text = f'{redScore * 100}'
+        self.root.get_screen('playActionDisplay').ids.greenScore.text = f'{greenScore * 100}'
     
 if __name__ == '__main__':
     mainApp().run()
