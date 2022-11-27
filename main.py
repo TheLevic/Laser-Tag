@@ -212,4 +212,6 @@ class mainApp(App):
         self.root.get_screen('playActionDisplay').ids.greenScore.text = "Score:" f'{greenScore * 100}'
     
 if __name__ == '__main__':
-    mainApp().run()
+    app = mainApp();
+    app.run(); 
+    app.server.GameIsOn = False;
