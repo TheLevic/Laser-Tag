@@ -33,6 +33,6 @@ class Server:
             
             #Loop through each of the lists and see if player.uid == infoString[0]
             playerThatHit = playerDict[infoString[0]];
-            playerThatHit.numHits += 1;
+            playerDict[infoString[0]].numHits+= 1;
             playerGotHit = playerDict[infoString[1]];
             displayString.append(f"Player {playerThatHit.name} hit player {playerGotHit.name}.");
