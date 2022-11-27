@@ -90,7 +90,6 @@ class mainApp(App):
                 regex = re.compile('[^a-zA-Z]')
                 name = regex.sub('', str(name))
                 exec(f'self.root.get_screen("mainScreen").ids.green_name_entry{i}.text = str(name)')
-        print("Names should be inserted")
 
     def get_players(self):
         # create red and green team nested dictionary
@@ -123,33 +122,9 @@ class mainApp(App):
 
     def submit(self):
         self.get_players()
-        for key, value in self.players_dict.items():
-            print(key)
-            print(value)
-
-        # for player in self.players_list:
-        #     print(f"{player.name} is a member of the {player.color} team")
-
-        # Alternative way of printing the statements for preference
-        # print("The red players are: ")
-        # for i in range(len(self.players_list)):
-        #     if self.players_list[i].color == "Red":
-        #         print(self.players_list[i].name)
-        #
-        # print("The green players are: ")
-        # for i in range(len(self.players_list)):
-        #     if self.players_list[i].color == "Green":
-        #         print(self.players_list[i].name)
-
-        # update names in play action screen
-        # self.updateNames()
-
-        # Starts the countdown timer
         self.updateTimer()
-
         # Automatically move to playaction screen
         sm.current = "playActionDisplay"
-         
          #Start the server as a thread
         self.serverThread = Thread(target=self.server.runServer,args=(self.players_dict,self.displayString,));
         self.serverThread.start();
@@ -159,7 +134,7 @@ class mainApp(App):
         global createdNest
         global updateTimer
         if switchScreens is True:
-            self.updateNames()
+            self.updateNames(dt)
             if updateTimer is True:
                 self.updateTimer()
                 
@@ -176,7 +151,6 @@ class mainApp(App):
             #self.root.get_screen('mainScreen').ids.testBox.text = f'{word}'
 
     def removeRecords(self):
-        print('Database cleared')
         db.clearDB()
 
     # Countdown timer functionality.
@@ -190,12 +164,18 @@ class mainApp(App):
                 self.clockNumber = int(self.clockNumber)
                 self.root.get_screen('playActionDisplay').ids.countdownTimer.text = "Timer:" f'{self.clockNumber}'
         Clock.schedule_interval(decrementClock, 1)
+        Clock.schedule_interval(self.checkTimer, 1); 
         global updateTimer
         updateTimer = False
         
+    #Checking if timer is at 0 to end the game
+    def checkTimer(self, dt):
+        if self.clockNumber == 0:
+            self.server.GameIsOn = False;
+
     # updates the names in the play action screen
     def updateNames(self,dt):
-        if len(self.displayString) > 10:
+        if len(self.displayString) > 9:
             self.displayString.pop(0);
         redNames = ''
         greenNames = ''
@@ -232,4 +212,6 @@ class mainApp(App):
         self.root.get_screen('playActionDisplay').ids.greenScore.text = "Score:" f'{greenScore * 100}'
     
 if __name__ == '__main__':
-    mainApp().run()
+    app = mainApp();
+    app.run(); 
+    app.server.GameIsOn = False;

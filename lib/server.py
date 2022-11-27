@@ -13,7 +13,6 @@ class Server:
         UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM);
         # Binding the server to our IP
         UDPServerSocket.bind((address, port));
-        print("UDP Server is up and running");
         return UDPServerSocket;
 
     def setServerStatus(self):
