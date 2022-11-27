@@ -175,8 +175,8 @@ class mainApp(App):
 
     # updates the names in the play action screen
     def updateNames(self,dt):
-        if len(self.displayString) > 9:
-            self.displayString.pop(0);
+        if len(self.displayString) > 6:
+            self.displayString.pop(0)
         redNames = ''
         greenNames = ''
         for i in range(len(self.redPlayers)):
