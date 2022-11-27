@@ -159,7 +159,7 @@ class mainApp(App):
         global createdNest
         global updateTimer
         if switchScreens is True:
-            self.updateNames()
+            self.updateNames(dt)
             if updateTimer is True:
                 self.updateTimer()
                 
