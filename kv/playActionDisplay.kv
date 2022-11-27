@@ -11,7 +11,7 @@ playActionDisplay:
             size_hint: 1, 0.1
             Label:
                 text: "Red Team"
-                font_size: 24
+                font_size: 45
                 canvas.before:
                     Color:
                         rgba: (255,0,0,1)
@@ -20,7 +20,7 @@ playActionDisplay:
                         size: self.size
             Label:
                 text: "Green Team"
-                font_size: 24
+                font_size: 45
                 canvas.before:
                     Color:
                         rgba: (0,255,0,1)
@@ -34,17 +34,29 @@ playActionDisplay:
             Label:
                 id: redPlayerNames
                 text: "Player names here"
-                font_size: 24
+                font_size: 40
             Label:
                 id: greenPlayerNames
                 text: "Player names here"
-                font_size: 24
+                font_size: 40
+
+        GridLayout:
+            cols: 2
+            size_hint: 1, 0.1
+            Label:
+                id: redScore
+                text: "Score"
+                font_size: 60
+            Label:
+                id: greenScore
+                text: "Score"
+                font_size: 60
 
         Label:
             id: playerActions
             text: "Player actions stream will go here"
-            font_size: 16
-            size_hint: 1, 1
+            font_size: 40
+            size_hint: 1, 0.6
             canvas.before:
                 Color:
                     rgba: (72, 122, 180, .7)
@@ -55,5 +67,5 @@ playActionDisplay:
         Label:
             id: countdownTimer
             text: "Timer"
-            font_size: 25
+            font_size: 40
             size_hint: 1.75, 0.1
