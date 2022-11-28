@@ -1,5 +1,5 @@
 import psycopg2
-# Database methdos for connecting, inserting, fethching, and deleting.
+# Database methods for connecting, inserting, fetching, and deleting.
 
 # This method connects us to our database
 def connectToDatabase():
@@ -14,11 +14,12 @@ def connectToDatabase():
 # This method commits values to a table in our database
 def commitToDatabase(values):
     # Create connection and cursor
-    conn = connectToDatabase();
-    c = conn.cursor();
+    conn = connectToDatabase()
+    c = conn.cursor()
 
     # Insert command
     sql_command = "INSERT INTO Players VALUES" + str(values)
+    exists = False
     
     #execute command
     try:
@@ -27,12 +28,12 @@ def commitToDatabase(values):
         print("ID already exists. Try again.")
 
     # Commit changes and close connection
-    conn.commit();
-    conn.close();
+    conn.commit()
+    conn.close()
 
 # This function returns all records in database
 def getAllDbValues():
-    conn = connectToDatabase();
+    conn = connectToDatabase()
 
     #create a cursor
     c = conn.cursor()
