@@ -9,6 +9,8 @@ from lib.Player import Player
 import lib.server 
 from threading import Thread
 import re
+import os
+import psutil
 
 Window.fullscreen = False
 Window.size = (800, 800)
@@ -16,6 +18,7 @@ sm = ScreenManager()
 switchScreens = False
 createdNest = True
 updateTimer = True
+pid = ""
 
 
 class splashScreen(Screen):
@@ -66,6 +69,7 @@ class mainApp(App):
         self.displayString = []
         self.redScore =0
         self.greenScore =0
+        self.pid = ""
 
     def build(self):
         sm.add_widget(Builder.load_file("kv/splashScreen.kv"))
@@ -128,6 +132,11 @@ class mainApp(App):
          #Start the server as a thread
         self.serverThread = Thread(target=self.server.runServer,args=(self.players_dict,self.displayString,));
         self.serverThread.start();
+
+
+        global pid
+        pid = os.getpid()
+
 
     def f5StartGame(self, dt):
         global switchScreens
@@ -210,8 +219,12 @@ class mainApp(App):
             greenScore += self.greenPlayers[i].numHits 
         self.root.get_screen('playActionDisplay').ids.redScore.text = "Score:" f'{redScore * 100}'
         self.root.get_screen('playActionDisplay').ids.greenScore.text = "Score:" f'{greenScore * 100}'
-    
+
+
 if __name__ == '__main__':
-    app = mainApp();
-    app.run(); 
+    app = mainApp()
+    app.run()
     app.server.GameIsOn = False;
+    p = psutil.Process(int(pid))
+    p.terminate()
+
